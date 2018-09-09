@@ -1,0 +1,91 @@
+html,body {
+    height: 100%;
+    overflow: hidden;
+}
+::-webkit-scrollbar {
+  width: 5px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #444;
+}
+::-moz-selection { /* Code for Firefox */
+  color: #eee;
+  background: #444;
+}
+a{
+  color: #444;
+  font-size: 12px;
+  transition: all .3s ease-in-out;
+  font-weight: 600;
+}
+a:hover{
+  color: #000;
+  text-decoration: none;
+  letter-spacing: 1rem;
+}
+#wrapper h2 {
+    color: #444;
+    background: linear-gradient(to bottom, #fff, transparent);
+}
+  #articles {
+    background:transparent;
+    color:#000;
+    height: 500px;
+    overflow-y:scroll;
+    overflow-x:hidden; 
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    
+  }
+  #articles h3 {
+    font-weight: 600;
+  }
+  #articles h6 {
+    overflow: hidden;
+    font-weight: 600;
+  }
+  summary{
+    color:#000;
+    text-align: left;
+    font-weight: 600;
+  }
+  summary:focus{
+    outline-style: none;
+  }
+  details p {
+    background: #eee;
+  }
+  button {
+    background: #444;
+    color:#eee;
+    border: 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+  }
+  button:hover {
+    background: #eee;
+    color:#444;
+    border: 0;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #notes {
+    background: #FCF5C7;
+  }
+  textarea, input {
+    display: block;
+    width: 100%;
+    background-color: #FCF5C7;
+  }
+  input {
+    height: 36px;
+    font-size: 24px;
+  }
+  textarea {
+    height: 200px;
+    font-size: 18px;
+  }
