@@ -1,0 +1,43 @@
+    <div class="container">
+      <h2 class="display-3 text-center p-3">WSJ News Central</h2>
+      <div class="row p-3">
+        <div class="container">
+          <div class="row"><button id="scrapeBtn" class="mr-3" type="button">Scrape WSJ</button><button class="mr-3" id="pasteBtn" type="button">Paste Articles</button></div>
+        </div> 
+      </div>
+      <div class="row">
+          <div id="wrapper" class="col-lg-12">
+              <div id="articles" class="text-left shadow-lg">
+                {{#each article}}
+                  <p>
+                    <h3 class="text-center">{{title}}</h3><br>
+                    <h5 class="p-3"><small>{{paragraph}}</small></h5><br>
+                    <button data-toggle="modal" data-target="#exampleModal" data-id={{_id}} class="addNote">Add a Note</button><br>
+                  <a class="text-center" href={{link}}>More>></a></p><hr>
+                {{/each}}
+              </div>
+              <!-- <div id="notes"></div> -->
+          </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Notes</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="notes"></div>
+              <div id="savedNotes"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

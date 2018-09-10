@@ -11,7 +11,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -25,11 +25,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
+var exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/Articles");
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/Articles";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Routes
-
+app.get('/',(req,res)=>{
+  db.Article.find({})
+  .then(function(data){
+    if(data) {
+      let dbData = {article:data};
+      res.render('index', dbData);
+    } else {
+      res.render('index');
+    }
+  })
+  .catch(function(err) {
+    res.json(err)
+});
+}) 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
@@ -53,7 +71,7 @@ app.get("/scrape", function(req, res) {
       // console.log('This is about to be stored in MongoDB:',scrappedObj);
       db.Article.create(scrappedObj)
       .then(function(data){
-        console.log(data);
+        // console.log(data);
       })
       .catch(function(err){
         return res.json(err);
@@ -68,7 +86,8 @@ app.get("/scrape", function(req, res) {
 app.get("/articles", function(req, res) {
   db.Article.find({})
   .then(function(data){
-    res.json(data);
+    let dbData = {article:data};
+    res.render('index', dbData);
   })
   .catch(function(err) {
     res.json(err)
@@ -99,7 +118,7 @@ app.post("/articles/:id", function(req, res) {
   // save the new note that gets posted to the Notes collection
   db.Note.create(req.body)
   .then(function(data){
-    return db.Article.findOneAndUpdate({_id:req.params.id},{note:data.id},{new:true});
+    return db.Article.findOneAndUpdate({_id:req.params.id},{$push:{note:data.id}},{new:true});
   })
   .then(function(dbArticle){
     res.json(dbArticle);

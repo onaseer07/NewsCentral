@@ -74,12 +74,21 @@ a:hover{
     cursor: pointer;
   }
   #notes {
-    background: #FCF5C7;
+    background: transparent;
+  }
+  .deleteNote {
+    font-weight: 900;
+    font-size: 24px;
+    color: red;
+    cursor: pointer;
+  }
+  #savedNotes>h6 {
+    background: #eee;
   }
   textarea, input {
     display: block;
     width: 100%;
-    background-color: #FCF5C7;
+    background-color: transparent;
   }
   input {
     height: 36px;
