@@ -36,7 +36,7 @@ mongoose.connect(MONGODB_URI);
 // Routes
 app.get('/',(req,res)=>{
   db.Article.find({})
-  .then(function(data){
+  .then(function(data){ 
     if(data) {
       let dbData = {article:data};
       res.render('index', dbData);
