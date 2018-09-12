@@ -4,7 +4,7 @@
         <div class="container">
           <div class="row d-flex justify-content-center align-items-center">
             <button id="scrapeBtn" class="mr-3" type="button">Scrape WSJ</button>
-          <button class="mr-3" id="savedArt" type="button">My Saved Articles</button>
+          <button class="mr-3" id="Art" type="button">Unsaved Articles</button>
           </div>
         </div> 
       </div>
@@ -12,14 +12,14 @@
           <div id="wrapper" class="col-lg-12">
               <div id="articles" class="text-left shadow-lg">
                 {{#each article}}
-                  {{#unless saved}}
+                    {{#if saved}}
                   <p>
                     <h3 class="text-center">{{title}}</h3><br>
                     <h5 class="p-3"><small>{{paragraph}}</small></h5><br>
                     <button data-toggle="modal" data-target="#exampleModal" data-id={{_id}} class="addNote">Add a Note</button><br><br>
-                    <button data-target="#exampleModal" data-id={{_id}} class="saveArt">Save</button><br>
+                    <button data-target="#exampleModal" data-id={{_id}} class="saveArtDel">Delete Saved</button><br>
                   <a class="text-center" href={{link}}>More>></a></p><hr>
-                  {{/unless}}
+                  {{/if}}
                 {{/each}}
               </div>
               <!-- <div id="notes"></div> -->

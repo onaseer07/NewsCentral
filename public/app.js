@@ -1,8 +1,6 @@
 
 $.backstretch('bg.png');
 // Grab the articles as a json
-
-
 $(document).on('click','#scrapeBtn',function(){
   $.ajax({
     method: 'GET',
@@ -10,32 +8,34 @@ $(document).on('click','#scrapeBtn',function(){
   })
     .then(function(data){
       console.log(data);
-
+      window.location.href='/articles';
     });
 });
 
-$(document).on('click','#pasteBtn',function(){
-  window.location.href='/articles';
-})
-//   $.ajax({
-//     method: 'GET',
-//     url: '/articles'
-//   })
-//     .then(function(data){
-//       console.log(data);
-//       // $.getJSON("/articles", function(data) {
-//       //   // For each one
-//       //   for (var i = 0; i < data.length; i++) {
-//       //     // Display the apropos information on the page
-//       //     $("#articles").append(
-//       //       `<p><h3 class="text-center">${data[i].title}</h3><br><h5 class="p-3"><small>${data[i].paragraph}</small></h5><br>
-//       //       <button data-toggle="modal" data-target="#exampleModal" data-id='${data[i]._id}' class="addNote">Add a Note</button><br>
-//       //       <a class="text-center" href="${data[i].link}">More>></a></p><hr>`);
-//       //   }
-//       // });
-//     });
-// });
-
+$(document).on('click','#savedArt',function(){
+  $.ajax({
+    method: 'GET',
+    url: '/savedarticles'
+  })
+    .then(function(data){
+      console.log(data);
+      window.location.href='/savedarticles'
+    });
+});
+$(document).on('click','#Art',function(){
+  $.ajax({
+    method: 'GET',
+    url: '/articles'
+  })
+    .then(function(data){
+      console.log(data);
+      window.location.href='/articles'
+    });
+});
+// //on click my saved articles button direct user to /savedarticles
+// $(document).on('click','#savedArt',function(){
+//   window.location.href='/savedarticles';
+// })
 // Whenever someone clicks a add a note button
 $(document).on("click", ".addNote", function() {
   // // Empty the notes from the note section
@@ -52,12 +52,13 @@ $(document).on("click", ".addNote", function() {
   })
     // With that done, add the note information to the page
     .then(data => {
-      console.log(data);
       if(data.note){
+        $('#savedNotes').empty();
         let noteTitles = data.note;
         noteTitles.forEach(element =>{
+          console.log(noteTitles);
           $('#savedNotes').append(`
-          <h6 class="text-center">${element.title} <small id="'${element._id}" class="deleteNote">X</small></h6>
+          <h6 class="text-center">${element.title} <small data-id="${element._id}" class="deleteNote">X</small></h6>
           `)
         });
       }
@@ -77,14 +78,21 @@ $(document).on("click", ".addNote", function() {
         notesArray.forEach(element => {
           console.log(element.title);
         });
-        // Place the title of the note in the title input
-        // $("#titleinput").val(data.note.title);
-        // // Place the body of the note in the body textarea
-        // $("#bodyinput").val(data.note.body);
       }
     });
 });
+//When someone deletes a specific note it sends "DELETE" request to server at route deletenote/:id
+$(document).on('click','.deleteNote',function(){
 
+  var thisId = $(this).attr('data-id');
+  $(this).parent().text('');
+  $.ajax({
+    method: 'POST',
+    url: '/deletenote/' + thisId,
+  }).then(function(data){
+    console.log(data);
+  })
+})
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
@@ -112,4 +120,28 @@ $(document).on("click", "#savenote", function() {
   // Also, remove the values entered in the input and textarea for note entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
+});
+
+//when user saves an article it sets the saved attribute of this specific article to true and page reloads
+$(document).on('click','.saveArt',function(){
+  var thisId = $(this).attr('data-id');
+  console.log(thisId);
+  $.ajax({
+    method: 'POST',
+    url: '/savedarticles/'+ thisId
+  }).then(function(data){
+    console.log(data);
+    window.location.reload();
+  });
+});
+$(document).on('click','.saveArtDel',function(){
+  var thisId = $(this).attr('data-id');
+  console.log(thisId);
+  $.ajax({
+    method: 'POST',
+    url: '/unsavedarticles/'+ thisId
+  }).then(function(data){
+    console.log(data);
+    window.location.reload();
+  });
 });
